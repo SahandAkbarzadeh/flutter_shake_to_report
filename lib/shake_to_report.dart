@@ -2,14 +2,20 @@ library shake_to_report;
 
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shake_event/shake_event.dart';
 
 class ShakeToReport extends StatefulWidget {
   final Widget child;
+  final BuildContext appContext;
 
-  const ShakeToReport({Key key, this.child}) : super(key: key);
+  const ShakeToReport({
+    Key key,
+    this.child,
+    this.appContext,
+  }) : super(key: key);
 
   @override
   _ShakeToReportState createState() => _ShakeToReportState();
@@ -27,6 +33,8 @@ class _ShakeToReportState extends State<ShakeToReport> with ShakeHandler {
   @override
   shakeEventListener() {
     takeScreenshot();
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => Text('test')));
     return super.shakeEventListener();
   }
 
