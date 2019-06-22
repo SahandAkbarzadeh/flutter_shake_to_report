@@ -81,6 +81,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.22.0"
+  sensors:
+    dependency: transitive
+    description:
+      name: sensors
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.0+1"
+  shake_event:
+    dependency: transitive
+    description:
+      name: shake_event
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   shake_to_report:
     dependency: "direct main"
     description:
@@ -151,3 +172,4 @@ packages:
     version: "2.0.8"
 sdks:
   dart: ">=2.2.2 <3.0.0"
+  flutter: ">=0.1.4 <2.0.0"
