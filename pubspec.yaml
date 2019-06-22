@@ -8,6 +8,8 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  path_provider: ^1.1.0
+  flutter_mailer: ^0.4.1+1
   shake_event: ^0.0.4
   flutter:
     sdk: flutter

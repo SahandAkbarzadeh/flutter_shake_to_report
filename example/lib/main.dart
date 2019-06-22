@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shake_to_report/send_report_email_handler.dart';
 
 import 'package:shake_to_report/shake_to_report.dart';
 
@@ -25,6 +26,8 @@ class MyApp extends StatelessWidget {
       ),
       home: Builder(
         builder: (c) => ShakeToReport(
+          sendReportHandler: (image, description) async =>
+              sendEmail(image, description, "example@gmail.com"),
           child: MyHomePage(
             title: "Shake to report",
           ),
