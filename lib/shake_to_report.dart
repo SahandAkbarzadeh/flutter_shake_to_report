@@ -12,12 +12,9 @@ import 'prepare_report_screen.dart';
 
 class ShakeToReport extends StatefulWidget {
   final Widget child;
-  final BuildContext appContext;
-
   const ShakeToReport({
     Key key,
     this.child,
-    this.appContext,
   }) : super(key: key);
 
   @override
