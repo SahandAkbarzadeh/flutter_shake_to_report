@@ -1,11 +1,14 @@
 library shake_to_report;
 
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shake_event/shake_event.dart';
+
+import 'prepare_report_screen.dart';
 
 class ShakeToReport extends StatefulWidget {
   final Widget child;
@@ -32,18 +35,27 @@ class _ShakeToReportState extends State<ShakeToReport> with ShakeHandler {
 
   @override
   shakeEventListener() {
-    takeScreenshot();
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => Text('test')));
+    handleScreenShot();
     return super.shakeEventListener();
   }
 
-  takeScreenshot() async {
+  handleScreenShot() async {
+    var screen = await takeScreenshot();
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => PrepareReportScreen(
+          image: screen,
+        ),
+      ),
+    );
+  }
+
+  Future<Uint8List> takeScreenshot() async {
     RenderRepaintBoundary boundary =
         _applicationKey.currentContext.findRenderObject();
     var image = await boundary.toImage();
     var byteData = await image.toByteData(format: ImageByteFormat.png);
-    var pngBytes = byteData.buffer.asUint8List();
+    return byteData.buffer.asUint8List();
   }
 
   @override
