@@ -10,11 +10,17 @@ import 'package:shake_event/shake_event.dart';
 
 import 'prepare_report_screen.dart';
 
+typedef OnSendReportCallBack = Future Function(
+    Uint8List image, String description);
+
 class ShakeToReport extends StatefulWidget {
   final Widget child;
+  final OnSendReportCallBack sendReportHandler;
+
   const ShakeToReport({
     Key key,
     this.child,
+    @required this.sendReportHandler,
   }) : super(key: key);
 
   @override
@@ -42,6 +48,7 @@ class _ShakeToReportState extends State<ShakeToReport> with ShakeHandler {
       MaterialPageRoute(
         builder: (context) => PrepareReportScreen(
           image: screen,
+          callBack: widget.sendReportHandler,
         ),
       ),
     );

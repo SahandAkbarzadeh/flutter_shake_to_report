@@ -2,23 +2,49 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
+import 'shake_to_report.dart';
+
 class PrepareReportScreen extends StatefulWidget {
   final Uint8List image;
+  final OnSendReportCallBack callBack;
 
-  const PrepareReportScreen({Key key, this.image}) : super(key: key);
+  const PrepareReportScreen({Key key, this.image, this.callBack})
+      : super(key: key);
 
   @override
   _PrepareReportScreenState createState() => _PrepareReportScreenState();
 }
 
 class _PrepareReportScreenState extends State<PrepareReportScreen> {
+  TextEditingController textEditingController = TextEditingController(text: "");
+
+  GlobalKey<ScaffoldState> _scaffold = GlobalKey();
+
+  bool _isLoading = false;
+
+  void setLoading(bool state) => this.setState(() => _isLoading = state);
+
+  void send() async {
+    setLoading(true);
+    try {
+      await widget.callBack(widget.image, textEditingController.text);
+      Navigator.of(context).pop();
+    } catch (e) {
+      setLoading(false);
+      _scaffold.currentState
+          .showSnackBar(SnackBar(content: Text(e.toString())));
+    }
+    print(textEditingController.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffold,
       appBar: AppBar(title: Text("Report a bug")),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => print("sent"),
-        child: Icon(Icons.send),
+        onPressed: _isLoading ? null : send,
+        child: _isLoading ? CircularProgressIndicator() : Icon(Icons.send),
       ),
       body: ListView(
         children: <Widget>[
@@ -34,6 +60,7 @@ class _PrepareReportScreenState extends State<PrepareReportScreen> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextField(
+        controller: textEditingController,
         keyboardType: TextInputType.multiline,
         maxLines: null,
         decoration: InputDecoration(labelText: "Report Description"),
