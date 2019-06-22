@@ -29,6 +29,7 @@ class ShakeToReport extends StatefulWidget {
 
 class _ShakeToReportState extends State<ShakeToReport> with ShakeHandler {
   var _applicationKey = new GlobalKey();
+  var isPrepareScreenOpened = false;
 
   @override
   void dispose() {
@@ -44,14 +45,18 @@ class _ShakeToReportState extends State<ShakeToReport> with ShakeHandler {
 
   handleScreenShot() async {
     var screen = await takeScreenshot();
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => PrepareReportScreen(
-          image: screen,
-          callBack: widget.sendReportHandler,
+    if (!isPrepareScreenOpened) {
+      isPrepareScreenOpened = true;
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => PrepareReportScreen(
+            image: screen,
+            callBack: widget.sendReportHandler,
+          ),
         ),
-      ),
-    );
+      );
+      isPrepareScreenOpened = false;
+    }
   }
 
   Future<Uint8List> takeScreenshot() async {
