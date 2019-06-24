@@ -13,14 +13,17 @@ import 'prepare_report_screen.dart';
 typedef OnSendReportCallBack = Future Function(
     Uint8List image, String description);
 
+typedef RequestContext = BuildContext Function();
+
 class ShakeToReport extends StatefulWidget {
   final Widget child;
   final OnSendReportCallBack sendReportHandler;
+  final RequestContext requestContext;
 
   const ShakeToReport({
     Key key,
     this.child,
-    @required this.sendReportHandler,
+    @required this.sendReportHandler, this.requestContext,
   }) : super(key: key);
 
   @override
@@ -47,7 +50,7 @@ class _ShakeToReportState extends State<ShakeToReport> with ShakeHandler {
     var screen = await takeScreenshot();
     if (!isPrepareScreenOpened) {
       isPrepareScreenOpened = true;
-      await Navigator.of(context).push(
+      await Navigator.of(widget?.requestContext() ?? context).push(
         MaterialPageRoute(
           builder: (context) => PrepareReportScreen(
             image: screen,
